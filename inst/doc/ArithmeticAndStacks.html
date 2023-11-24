@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Arithmetic and Stacks</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Arithmetic and Stacks</h1>
+
+
+
+<div id="more-arithmetic" class="section level2">
+<h2>More Arithmetic</h2>
+<p>In the last section, we learned some basic arithmetic using
+<code>+</code> and <code>*</code>. However, <code>froth</code>
+incorporates a host of arithmetic expressions. Eagle-eyed readers may
+have spotted that we’ve only been working with commutative operations,
+meaning the order doesn’t matter (<code>a+b = b+a</code>). What happens
+when we use non-commutative expressions, such as division or
+exponentiation?</p>
+<p>When <code>froth</code> executes words, it always treats the top of
+the stack as the <em>last</em> argument to the expression. This means
+that, for something like <code>a b /</code>, <code>b</code> is on the
+top of the stack and the result is <code>a / b</code>.
+<code>froth</code> uses R for its mathematical operations, so you don’t
+have to worry about things like converting between integers and doubles,
+or double vs. single length numbers.</p>
+<p>The following mathematical operations are all built into
+<code>froth</code>:</p>
+<ul>
+<li><code>/ ( a b -- n )</code>: division
+(<code>5 2 / =&gt; 2.5</code>)</li>
+<li><code>%/% ( a b -- n)</code>: integer division
+(<code>5 2 %/% =&gt; 2</code>)</li>
+<li><code>mod ( a b -- rem )</code>: remainder when dividing
+<code>a / b</code></li>
+<li><code>/mod ( a b -- rem quot )</code>: integer divides
+<code>a %/% b</code>, pushes the remainder and then the quotient</li>
+<li><code>^ ( a b -- n )</code>: raises <code>a^b</code></li>
+<li><code>negate ( a -- n )</code>: negates <code>a</code></li>
+<li><code>abs ( a -- n )</code>: takes the absolute value of
+<code>a</code></li>
+<li><code>min ( a b -- min )</code>: pushes <code>min(a,b)</code></li>
+<li><code>max ( a b -- max )</code>: pushes <code>max(a,b)</code></li>
+<li><code>sqrt ( a -- root )</code>: pushes <code>sqrt(a)</code></li>
+</ul>
+</div>
+<div id="stack-operators" class="section level2">
+<h2>Stack Operators</h2>
+<p>Unfortunately, there are some problems that just can’t be solved with
+stacks and postfix…at least, not without more tools. Consider the
+equation <code>(a-b)/c</code>. In postfix, this would be
+<code>a b - c /</code>. Now, if we wanted to write a word with
+definition <code>( c a b -- d )</code> that applies the function
+<code>(a-b)/c</code>, you’d find that it isn’t quite possible with the
+tools we have. Defining <code>: SOLUTION? - /</code> would instead apply
+<code>c / (a - b)</code>, which isn’t quite right. What we need is a way
+to <em>swap</em> the top two values, so that we run
+<code>(a-b)/c</code>.</p>
+<p>This is where stack operators come in handy. The operator we’re
+looking for is the aptly named <code>SWAP ( a b -- b a )</code>. which
+swaps the first two elements of the stack. Using this, we can write our
+definition:</p>
+<pre><code>fr&gt; : TRYTHIS ( c a b -- d ) - swap / ;
+ok.
+fr&gt; 4 2 1 trythis .
+0.25 ok.</code></pre>
+<p><code>(2-1)/4 = 1/4 = 0.25</code>, so this works! Here are a couple
+other stack operators that are often useful:</p>
+<ul>
+<li><code>SWAP ( a b -- b a )</code>: swap top two stack elements</li>
+<li><code>DUP ( n -- n n )</code>: duplicate the top stack element</li>
+<li><code>OVER ( a b -- a b a )</code>: duplicate the second element to
+the top of the stack</li>
+<li><code>ROT ( a b c -- b c a )</code>: rotate the third item to the
+top</li>
+<li><code>DROP ( n -- )</code>: discard the top element of the
+stack</li>
+<li><code>.S ( -- )</code>: print out the contents of the stack</li>
+</ul>
+<p>We also have a set of stack operators that work on <em>pairs</em> of
+numbers, but perform the same functions:</p>
+<ul>
+<li><code>2SWAP ( a b c d -- c d a b )</code>: swap the top two
+pairs</li>
+<li><code>2DUP ( a b -- a b a b )</code>: duplicate the top pair</li>
+<li><code>2OVER ( p1 p2 -- p1 p2 p1 )</code>: duplicate the second pair
+(<code>p1</code>) to the top</li>
+<li><code>2DROP ( a b -- )</code>: discard the top pair</li>
+</ul>
+</div>
+<div id="two-stacks" class="section level2">
+<h2>Two stacks?</h2>
+<p><code>froth</code> actually has two stacks. The main one, the
+parameter stack, is what you’ll spend the majority of your time working
+with. Whenever we “push to the stack”, that’s referring to the parameter
+stack.</p>
+<p>However, <code>froth</code> also has a second stack called the Return
+Stack. It’s possible for you to use this stack as a sort of “temporary
+space” to hold values while you process other things. It’s very
+important to ensure you clear the values on this temporary stack before
+you finish processing! <code>froth</code> is much more forgiving than
+Forth on this point, but it’s good to get in the practice of good Forth
+code.</p>
+<ul>
+<li><code>&gt;R ( n -- )</code>: moves the value on the parameter stack
+to the return stack</li>
+<li><code>R&gt; ( -- n )</code>: moves the value on the return stack to
+the parameter stack</li>
+<li><code>R@ ( -- n )</code>: copies the value on the return stack to
+the parameter stack</li>
+</ul>
+<p>This can sometimes be very useful. For instance, say we wanted to
+swap the second and third elements of the stack (that is, go from
+<code>2 3 1</code> to <code>3 2 1</code>). We can do this with:</p>
+<pre><code>fr&gt; 2 3 1
+ok.
+fr&gt; &gt;R SWAP R&gt;
+ok.
+fr&gt; .s
+[[1]]
+[1] 1
+
+[[2]]
+[1] 2
+
+[[3]]
+[1] 3
+
+[[4]]
+NULL
+
+ok.</code></pre>
+<p><em>Fundamental Forth</em> gives an excellent example of using these
+operators: suppose we want to write a function
+<code>quadratic ( a b c x -- n )</code> that returns
+<code>ax^2 + bx + c</code>.</p>
+<pre><code>fr&gt; : QUADRATIC ( a b c x -- n ) &gt;r swap rot r@ * + r&gt; * + ; 
+ok.
+fr&gt; 2 7 9 3 quadratic .
+48 ok.</code></pre>
+</div>
+<div id="other-miscellaneous-operators" class="section level2">
+<h2>Other Miscellaneous operators</h2>
+<p>For completeness, here are some other arithmetic operations: -
+<code>1+ ( n1 -- n2 )</code>: adds 1 - <code>1- ( n1 -- n2 )</code>:
+subtracts 1 - <code>2+ ( n1 -- n2 )</code>: adds 2 -
+<code>2- ( n1 -- n2 )</code>: subtracts 2 -
+<code>2* ( n1 -- n2 )</code>: multiplies by 2 -
+<code>2/ ( n1 -- n2 )</code>: divides by 2</p>
+<p>We also have some funky double operators: -
+<code>*/ ( a b c -- n )</code>: pushes <code>(a*b) / c</code> -
+<code>*/mod ( a b c -- rem quot )</code>: pushes the remainder and
+quotient of <code>(a*b) %/% c</code></p>
+</div>
+<div id="words-in-this-chapter" class="section level2">
+<h2>Words in this chapter</h2>
+<ul>
+<li><code>/ ( a b -- n )</code>: division
+(<code>5 2 / =&gt; 2.5</code>)</li>
+<li><code>%/% ( a b -- n)</code>: integer division
+(<code>5 2 %/% =&gt; 2</code>)</li>
+<li><code>mod ( a b -- rem )</code>: remainder when dividing
+<code>a / b</code></li>
+<li><code>/mod ( a b -- rem quot )</code>: integer divides
+<code>a %/% b</code>, pushes the remainder and then the quotient</li>
+<li><code>^ ( a b -- n )</code>: raises <code>a^b</code></li>
+<li><code>negate ( a -- n )</code>: negates <code>a</code></li>
+<li><code>abs ( a -- n )</code>: takes the absolute value of
+<code>a</code></li>
+<li><code>min ( a b -- min )</code>: pushes <code>min(a,b)</code></li>
+<li><code>max ( a b -- max )</code>: pushes <code>max(a,b)</code></li>
+<li><code>sqrt ( a -- root )</code>: pushes <code>sqrt(a)</code></li>
+<li><code>SWAP ( a b -- b a )</code>: swap top two stack elements</li>
+<li><code>DUP ( n -- n n )</code>: duplicate the top stack element</li>
+<li><code>OVER ( a b -- a b a )</code>: duplicate the second element to
+the top of the stack</li>
+<li><code>ROT ( a b c -- b c a )</code>: rotate the third item to the
+top</li>
+<li><code>DROP ( n -- )</code>: discard the top element of the
+stack</li>
+<li><code>.S ( -- )</code>: print out the contents of the stack</li>
+<li><code>2SWAP ( a b c d -- c d a b )</code>: swap the top two
+pairs</li>
+<li><code>2DUP ( a b -- a b a b )</code>: duplicate the top pair</li>
+<li><code>2OVER ( p1 p2 -- p1 p2 p1 )</code>: duplicate the second pair
+(<code>p1</code>) to the top</li>
+<li><code>2DROP ( a b -- )</code>: discard the top pair</li>
+<li><code>&gt;R ( n -- )</code>: moves the value on the parameter stack
+to the return stack</li>
+<li><code>R&gt; ( -- n )</code>: moves the value on the return stack to
+the parameter stack</li>
+<li><code>R@ ( -- n )</code>: copies the value on the return stack to
+the parameter stack</li>
+<li><code>1+ ( n1 -- n2 )</code>: adds 1</li>
+<li><code>1- ( n1 -- n2 )</code>: subtracts 1</li>
+<li><code>2+ ( n1 -- n2 )</code>: adds 2</li>
+<li><code>2- ( n1 -- n2 )</code>: subtracts 2</li>
+<li><code>2* ( n1 -- n2 )</code>: multiplies by 2</li>
+<li><code>2/ ( n1 -- n2 )</code>: divides by 2</li>
+<li><code>*/ ( a b c -- n )</code>: pushes <code>(a*b) / c</code></li>
+<li><code>*/mod ( a b c -- rem quot )</code>: pushes the remainder and
+quotient of <code>(a*b) %/% c</code></li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

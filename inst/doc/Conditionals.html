@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Conditionals and Branching</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Conditionals and Branching</h1>
+
+
+
+<p>A major component of computers is being able to make decisions. If
+you’ve worked with other programming languages, you’ll be familiar with
+common terms like <code>if</code> and <code>else</code>.</p>
+<p>Let’s look at a quick example to introduce conditionals:</p>
+<pre><code>fr&gt; : IS_TWO? ( n -- n ) dup 2 = if .&quot; It&#39;s two!&quot; then ;
+ok.
+fr&gt; 2 is_two?
+It&#39;s two! ok.</code></pre>
+<p>The complete definition is <code>dup 2 = if .&quot; xxx&quot; then</code>. We
+have a few new words we haven’t seen before here, so lets step through
+this definition:</p>
+<ol style="list-style-type: decimal">
+<li><code>dup</code> duplicates the top element of the stack</li>
+<li><code>2</code> pushes a 2 onto the stack</li>
+<li><New Word> <code>=</code> pops the top two values and pushes
+<code>TRUE</code> if they’re equal and <code>FALSE</code> otherwise</li>
+<li><New Word> <code>if</code> checks if the top of stack is
+<code>TRUE</code>; if not, it skips to <code>then</code></li>
+<li><code>.&quot; xxx&quot;</code> prints <code>xxx</code></li>
+<li><code>then</code> signals the end of the <code>if</code>
+statement</li>
+</ol>
+<p>Thus, we get the following behavior:</p>
+<pre><code>fr&gt; 2 is_two?
+It&#39;s two! ok.
+fr&gt; 1 is_two?
+ok.</code></pre>
+<p>Note how in the second case, we have no output, since the value
+pushed is not equal to 2. It would be nice to have some output to tell
+us this, which is where <code>else</code> comes in. <code>else</code>
+executes statements only if the <code>if</code> branch did not execute.
+For example:</p>
+<pre><code>fr&gt; : IS_TWO? ( n -- n ) dup 2 = if .&quot; It&#39;s two!&quot; else .&quot; Not two :(&quot; then ;
+ok.
+fr&gt; 2 is_two?
+It&#39;s two! ok.
+fr&gt; 1 is_two?
+Not two :( ok.</code></pre>
+<p><code>then</code> statements end the conditional. It’s important to
+note that everything after <code>then</code> will execute <em>regardless
+of whether the <code>if</code> block executed or not</em>. You
+<strong>must</strong> include a <code>then</code> to close an if
+statement, or else the interpreter won’t know where to skip to after the
+end of interpretation.</p>
+<p>We can also nest <code>if</code> statements. For this example, we’ll
+use <code>&lt;</code>, which functions exactly like <code>=</code>
+except that it pushes <code>TRUE</code> if <code>a &lt; b</code> and
+<code>FALSE</code> otherwise.</p>
+<pre><code>fr&gt; : is_big? ( a -- a ) dup 10 &lt; if .&quot; Small&quot; else dup 20 &lt; if .&quot; Medium&quot; else .&quot; Big&quot; then then .&quot; number&quot; cr ; 
+ok.
+fr&gt; 5 is_big?
+Small number 
+ok.
+fr&gt; 15 is_big?
+Medium number 
+ok.
+fr&gt; 25 is_big?
+Big number 
+ok.</code></pre>
+<p>Writing long functions like this can be a little annoying. We can use
+the <code>\</code> to break up lines without executing functions, which
+can help make them more readable:</p>
+<pre><code>fr&gt; : is_big? ( a -- a ) \
+  + dup 10 &lt;             \
+  + if                   \
+  +    .&quot; Small&quot;         \
+  + else dup 20 &lt;        \
+  +   if .&quot; Medium&quot;      \
+  +   else .&quot; Big&quot;       \
+  +   then               \
+  + then                 \
+  + .&quot; number&quot; ; 
+ok.</code></pre>
+<p>The interpreter will add the <code>+</code> to signify that it’s
+waiting for you to finish the line. If you get stuck, use
+<code>CTRL+C</code> to quit.</p>
+<p>So what is happening here? It’s a function that expects a number on
+the stack and doesn’t consume it.</p>
+<ol style="list-style-type: decimal">
+<li><code>dup</code> duplicates the number</li>
+<li><code>10 &lt;</code> pushes <code>TRUE</code> if the number less
+than 10 and <code>FALSE</code> otherwise</li>
+<li>if <code>TRUE</code> on the stack, print “Small” and go to (8)</li>
+<li><code>dup</code> duplicates the number</li>
+<li><code>20 &lt;</code> pushes <code>TRUE</code> if the number less
+than 20 and <code>FALSE</code> otherwise</li>
+<li>if <code>TRUE</code> on the stack, print “Medium” and go to (8)</li>
+<li>print “Big”</li>
+<li>print “number”</li>
+</ol>
+<p><strong>Note:</strong> Every <code>if</code> needs exactly one
+<code>then</code>!</p>
+<p>There are many comparators available, not just <code>=</code> and
+<code>&lt;</code>: - <code>=</code>: are the top two elements equal? -
+<code>&lt;</code>: is the top element greater than the first? -
+<code>&gt;</code>: is the top element less than the first? -
+<code>&lt;&gt;</code>: are the top two elements not equal? -
+<code>0=</code>: is the top element zero? - <code>0&lt;</code>: is the
+top element greater than zero? - <code>0&gt;</code>: is the top element
+less than zero? - <code>&lt;=</code>, <code>&gt;=</code> are defined as
+one would expect</p>
+<p><code>if</code> uses R’s <code>as.logical</code> to check if the top
+value evaluates to <code>TRUE</code>. This means that nonzero numbers
+will be treated as <code>TRUE</code>, whereas <code>0</code> will
+evaluate to false. Things that cannot be converted to logicals
+(e.g. <code>&#39;a&#39;</code>) will throw an error.</p>
+<div id="logical-operators" class="section level2">
+<h2>Logical Operators</h2>
+<p>Just like in other programming languages, <code>froth</code> supports
+a number of logical operators.</p>
+<ul>
+<li><code>AND</code>: push <code>TRUE</code> if the top two elements are
+both <code>TRUE</code></li>
+<li><code>OR</code>: push <code>TRUE</code> if at least one of the top
+two elements are <code>TRUE</code></li>
+<li><code>XOR</code>: push <code>TRUE</code> if exactly one of the top
+two elements is <code>TRUE</code></li>
+<li><code>NOT</code>: push <code>TRUE</code> if the top element is
+<code>FALSE</code> and vice-versa</li>
+</ul>
+<p>Some words come with built-in checks. For example, <code>?DUP</code>
+duplicates the top value only if it is not zero. For error-handling, you
+can use <code>ABORT&quot;</code>. <code>ABORT&quot;</code> checks the stack for a
+value; if it is <code>TRUE</code>, it clears the stacks and prints an
+error message.</p>
+</div>
+<div id="words-in-this-chapter" class="section level2">
+<h2>Words in this chapter</h2>
+<ul>
+<li><code>if</code>: if top of stack is <code>TRUE</code>, executes.
+Else jumps to the next <code>else</code> or <code>then</code>
+block.</li>
+<li><code>else</code>: executes commands until <code>then</code> only if
+the preceding <code>if</code> did not execute.</li>
+<li><code>then</code>: terminates an <code>if</code> or
+<code>if...else</code> block.</li>
+<li><code>\</code>: signals to the interpreter that you’re making a
+newline without running commands</li>
+<li><code>=</code>: are the top two elements equal?</li>
+<li><code>&lt;</code>: is the top element greater than the first?</li>
+<li><code>&gt;</code>: is the top element less than the first?</li>
+<li><code>&lt;&gt;</code>: are the top two elements not equal?</li>
+<li><code>0=</code>: is the top element zero?</li>
+<li><code>0&lt;</code>: is the top element greater than zero?</li>
+<li><code>0&gt;</code>: is the top element less than zero?</li>
+<li><code>&lt;=</code>: is top element greater than or equal to the
+second?</li>
+<li><code>&gt;=</code>: is top element less than or equal to the
+second?</li>
+<li><code>AND</code>: push <code>TRUE</code> if the top two elements are
+both <code>TRUE</code></li>
+<li><code>OR</code>: push <code>TRUE</code> if at least one of the top
+two elements are <code>TRUE</code></li>
+<li><code>XOR</code>: push <code>TRUE</code> if exactly one of the top
+two elements is <code>TRUE</code></li>
+<li><code>NOT</code>: push <code>TRUE</code> if the top element is
+<code>FALSE</code> and vice-versa</li>
+<li><code>?DUP</code>: duplicate top value if it is nonzero</li>
+<li><code>ABORT&quot;</code>: abort if top value true, print error message
+(terminated by <code>&quot;</code>)</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

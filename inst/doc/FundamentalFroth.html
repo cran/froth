@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Fundamental Froth</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Fundamental Froth</h1>
+
+
+
+<p><code>froth</code> attempts to stick close to the original
+conventions of Froth. Let’s walk through the basics using the built-in
+commandline.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(froth)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="do">## start the command line</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">froth</span>()</span></code></pre></div>
+<p>You should see your console change to look like the following:</p>
+<pre><code>&gt; library(froth)
+&gt; froth()
+fr&gt;</code></pre>
+<p>This <code>fr&gt;</code> signals that you’re currently in the
+<code>froth</code> environment. Let’s test it by pressing
+<code>ENTER</code>:</p>
+<pre><code>fr&gt;
+ok.
+fr&gt;</code></pre>
+<p><code>froth</code> will acknowledge successfully completed commands
+with <code>ok.</code>. In this case, we didn’t provide any commands, so
+<code>froth</code> will simply do nothing and acknowledge you.</p>
+<p>Let’s try a new command:</p>
+<pre><code>fr&gt; 45 emit
+-ok.</code></pre>
+<p>Notice how the return is now <code>-ok.</code>? This is because
+<code>froth</code> ran the commands <code>45</code> and
+<code>emit</code> before returning. <code>45</code> pushes the number 45
+onto the stack, and <code>emit</code> prints the top value of the stack
+interpreting it as an ASCII value. 45 happens to correspond to a dash in
+ASCII, so we get a dash printed!</p>
+<p>Now, it would certainly be possible to print out lines by just
+repeating this command over and over:</p>
+<pre><code>fr&gt; 45 emit 45 emit 45 emit 45 emit 45 emit
+-----ok.</code></pre>
+<p>…but this gets a little tiresome. Instead, let’s tell
+<code>froth</code> a shortcut for when we want to print a dash:</p>
+<pre><code>fr&gt; : DASH 45 emit ;
+ok.
+fr&gt; DASH
+-ok.</code></pre>
+<p>What happened here? The colon <code>:</code> tells <code>froth</code>
+that we’re starting a definition. The next word (<code>DASH</code>)
+gives the name for this definition, and the remaining words define what
+it does. The semicolon <code>;</code> ends the definition. In this case,
+we’re telling <code>froth</code>: “whenever you see the word ‘dash’,
+replace it with <code>45 emit</code>.” After that, we call
+<code>dash</code> and it prints out a dash. Note that words are not
+case-sensitive; <code>dash</code>, <code>dAsH</code>, and
+<code>DASH</code> will all work. These names with associated definitions
+are called <em>words</em>!</p>
+<p>We can even make words that include words. This word prints out an
+arbitrary number of dashes (I’ll explain how it works later):</p>
+<pre><code>fr&gt; : DASHES 0 do dash loop ;
+ok.
+fr&gt; 10 dashes
+----------ok.</code></pre>
+<p>Now, let’s make a word that prints out an ASCII letter
+<code>F</code>, for froth. We’re going to add in a few more new words:
+<code>CR</code>, which prints a new line, and <code>124 emit</code>,
+which prints a pipe (<code>|</code>).</p>
+<pre><code>fr&gt; : PIPE 124 emit ;
+ok.
+fr&gt; : LETTER_F 47 emit 4 dashes cr pipe 2 dashes cr pipe cr ;
+/----
+|--
+|
+ok.</code></pre>
+<p>It’s not as pretty as the asterisk F in <em>Starting FORTH</em>, but
+what can ya do.</p>
+<div id="the-dictionary" class="section level2">
+<h2>The Dictionary</h2>
+<p>The dictionary in FORTH is a list of words defined sequentially.
+<code>froth</code> initializes some words when it first loads, and then
+user-defined words are added sequentially to it. When you input a line
+of text, <code>froth</code> splits the command by spaces and searches
+for each word in the dictionary. If it finds the word, it executes the
+related code. If not, it returns an error message.</p>
+<p>This means you <strong>must</strong> separate each command by a
+space! For example:</p>
+<pre><code>fr&gt; :star 42 emit ;
+:star ?</code></pre>
+<p><code>froth</code> couldn’t understand this command, and responded
+with <code>:star ?</code>. This is because <code>:star</code> isn’t a
+defined word–in order to make this definition work, we have to
+space-separate the colon from the other words.</p>
+<pre><code>fr&gt; : star 42 emit ;
+ok.
+fr&gt; star
+*ok.</code></pre>
+<p>Emitting values character by character gets old pretty fast. We can
+use the words <code>.&quot;</code> and <code>&quot;</code> to print whole
+strings:</p>
+<pre><code>fr&gt; .&quot; Hello, world!&quot;
+Hello, world! ok.</code></pre>
+<p>Note the space separation between <code>.&quot;</code> and the string. The
+ending <code>&quot;</code> is part of the string, so it doesn’t need to be
+space separated.</p>
+<p><code>froth</code> also has some special words. We encountered one of
+these before when we input <code>45</code>–this put the number 45 onto
+the stack. If <code>froth</code> can’t find a word in the dictionary, it
+checks to see if you’ve input a number. If so, it executes a special
+command that puts it onto the stack.</p>
+<p>You can redefine a word at any time by just writing a new definition
+for it. <code>froth</code> will always use the most recent definition
+for a word that you’ve given it, but it remembers old ones. If you
+wanted to go back to a previous definition, you can use the
+<code>FORGET</code> word.</p>
+<pre><code>fr&gt; : add_two 2 + ; 
+ok.
+fr&gt; : add_two 2 2 + + ;
+ok.
+fr&gt; 5 add_two .
+9 ok.
+fr&gt; forget add_two
+ok.
+fr&gt; 5 add_two
+7 ok.
+fr&gt; forget add_two
+ok.
+fr&gt; 5 add_two
+add_two ?</code></pre>
+<p>Here we define <code>add_two</code> twice–the first defines it as
+adding two to a number, and the second as adding four. When we call
+<code>forget add_two</code>, it reverts to the first definition. Calling
+it a second time removes the definition entirely.</p>
+<p>If you’re curious what words are defined, you can list them all out
+using the <code>WORDS</code> words.</p>
+</div>
+<div id="the-data-stack" class="section level2">
+<h2>The Data Stack</h2>
+<p>We’ve been talking a lot about the stack, but…what is it? If you’re
+unfamiliar with the stack data structure, the concept is essentially the
+same as a tower of bricks. Each time we “add” to the stack, we place a
+brick on top of the tower. Each time we remove from the stack, we have
+to take the brick off the top, otherwise the entire stack would fall
+apart! This means that the most recently added brick is always the first
+one we remove. This concept is typically referred to as “Last In, First
+Out” (LIFO).</p>
+<p>When we talk about stacks, we use the word “push” to refer to adding
+an item to the stack, and “pop” to refer to taking an item off the
+stack.</p>
+<p>Let’s showcase this with an example. We’re going to use a new word
+called <code>.</code>. The period takes the first element off the stack
+and tells you what it was (it pops an item).</p>
+<pre><code>fr&gt; 1
+ok.
+fr&gt; 2
+ok.
+fr&gt; 3
+ok.
+fr&gt; . . .
+3 2 1 ok.</code></pre>
+<p>Note how the last element we added (3) was the first element we got
+back. LIFO in action.</p>
+<p>Stacks lend themselves well to a style of expression notation called
+reverse Polish notation (RPN), also called <strong>postfix</strong>
+notation. Most people are used to <strong>infix</strong> notation, in
+which operators are found in between their operands. This means that if
+you wanted to add two numbers <code>a</code> and <code>b</code>, you’d
+write <code>a + b</code>. Postfix notation instead puts the operator
+<em>after</em> the operands, meaning that we’d write the sum of
+<code>a</code> and <code>b</code> as <code>a b +</code>.</p>
+<p>While this may feel unintuitive, it does have a number of benefits.
+First, postfix notation has no need for parentheses or order of
+operations; the operations define the order they should be applied. For
+example:</p>
+<pre><code>(infix) a * (b+c) = a b c + * (postfix)
+(infix) (a*b) + (c*d) = a b * c d * + (postfix)</code></pre>
+<p>This works especially well for <code>froth</code>, since we have a
+stack already! If we write any operation in postfix notation, we’ll get
+the result. Let’s try that with some simple arithmetic:</p>
+<pre><code>fr&gt; : pop_result . cr ;
+fr&gt; 1 2 + pop_result
+3 
+ok.
+fr&gt; 2 3 4 + * pop_result
+14
+ok.
+fr&gt; 2 3 * 4 5 * + pop_result
+26</code></pre>
+<p>Walking through each of these expressions:</p>
+<ul>
+<li><code>1 2 + =&gt; 1 + 2 + 3</code></li>
+<li><code>2 3 4 + * =&gt; 2 * (3+4) = 2*7 = 14</code></li>
+<li><code>2 3 * 4 5 * + =&gt; (2*3) + (4*5) = 6 + 20 = 26</code></li>
+</ul>
+<p>What is actually going on under the hood? Let’s walk through
+<code>1 2 + pop_result</code>:</p>
+<ol style="list-style-type: decimal">
+<li><code>froth</code> reads <code>1</code>, and pushes a 1 onto the
+stack.</li>
+<li><code>froth</code> reads <code>2</code>, and pushes a 2 onto the
+stack.</li>
+<li><code>froth</code> reads <code>+</code>.</li>
+<li><code>+</code> pops two items off the stack (2, 1).</li>
+<li><code>+</code> adds the two items it just popped (1 + 2).</li>
+<li><code>+</code> pushes the result of the operation (3) back onto the
+stack.</li>
+<li><code>froth</code> reads <code>pop_result</code>, and looks up the
+definition (<code>. cr</code>).</li>
+<li><code>pop_result</code> first calls <code>.</code>, which pops the
+first element of the stack (3).</li>
+<li><code>pop_result</code> then calls <code>cr</code>, which prints a
+new line.</li>
+<li><code>froth</code> sees no more commands, so it acknowledges with
+<code>ok.</code></li>
+</ol>
+<p>A nice thing about postfix operators is we can implicitly act on
+whatever is on the stack. For example, it’s relatively easy to define a
+word that doubles whatever is on the stack:</p>
+<pre><code>fr&gt; : double 2 * ;
+ok.</code></pre>
+<p>Wait a second–doesn’t <code>*</code> pop two values and then return?
+Here we’ve only defined a single value, 2!</p>
+<p>This construction is by design. <code>*</code> pops whatever the top
+two values of the stack are, multiplies them, then pushes the result.
+This means that, since we’re only pushing a single value in
+<code>double</code>, the function will multiply whatever is on top of
+the stack by two and then return it.</p>
+<pre><code>fr&gt; 1
+ok.
+fr&gt; double double double double .
+16 ok.</code></pre>
+</div>
+<div id="watch-out-for-the-stack" class="section level2">
+<h2>Watch out for the stack!</h2>
+<p>It’s important to note a major concern with this style of
+architecture. Let’s return to our definition of <code>double</code>:</p>
+<pre><code>fr&gt; : double 2 * ;
+ok.</code></pre>
+<p>I mentioned before that this allows us to arbitrarily double whatever
+is on top of the stack. However, what happens if there’s nothing on top
+of the stack? Let’s use the <code>clear</code> word to remove all
+elements from the stack, then run <code>double</code>:</p>
+<pre><code>fr&gt; clear
+ok.
+fr&gt; double
+Error: stack is empty.
+&gt;</code></pre>
+<p>This is called a stack underflow error, and it kills our froth
+session. We can reinitialize it with <code>froth()</code> (and this will
+preserve all of our defined words), but it’s important to exercise
+caution when dealing with the stack. Make sure that you’re aware of what
+state your words expect and what state they leave the stack in!</p>
+<p>Conventional Forth communicates this by adding comments to words.
+Comments are added using the <code>( )</code> words, and are typically
+of the form <code>( before_state -- after_state )</code> (note space
+separation of parentheses; they’re also words!).</p>
+<p>For example:</p>
+<pre><code>fr&gt; : DOUBLE ( n1 -- n2 ) 2 * ;
+ok.</code></pre>
+<p>In this case, <code>DOUBLE</code> expects to find a single number
+<code>n1</code> on the stack, and it replaces it with <code>n2</code>.
+In essence, we expect to find at least one value, and we end with one
+value.</p>
+<p>Another example:</p>
+<pre><code>fr&gt; : SUM ( a b -- res ) + ;
+ok.</code></pre>
+<p><code>SUM</code> is equivalent to the <code>+</code> operation.
+<code>+</code> expects to find at least two elements on the stack
+(<code>a,b</code>), and replaces them with <code>res</code>.</p>
+<p>Operations don’t have to replace. The notation for <code>emit</code>
+is simply <code>: emit ( n -- )</code>, since it pops an element off the
+stack but doesn’t replace it.</p>
+</div>
+<div id="when-all-goes-wrong" class="section level2">
+<h2>When all goes wrong</h2>
+<p>If you find yourself in a real pickle, the <code>RESET</code> word
+will completely reset the <code>froth</code> environment to when its
+first initialized. You can also use <code>CTRL+C</code> to kill any
+running processes, and <code>CLEAR</code> to delete the contents of the
+stack.</p>
+</div>
+<div id="words-in-this-chapter" class="section level2">
+<h2>Words in this chapter</h2>
+<ul>
+<li><code>&lt;NUMBER&gt; ( -- n )</code> : pushes a number onto the
+stack</li>
+<li><code>emit ( n -- )</code> : prints the top number of the stack,
+interpreting as ASCII</li>
+<li><code>cr ( -- )</code>: prints a new line</li>
+<li><code>.&quot; xxx&quot; ( -- )</code>: prints <code>xxx</code> on the
+terminal. Note that <code>&quot;</code> terminates the string.</li>
+<li><code>: xxx yyy ; ( -- )</code> : defines a word <code>xxx</code>
+comprised of words <code>yyy</code></li>
+<li><code>+ (a b -- n)</code>: adds <code>a+b</code></li>
+<li><code>* (a b -- n)</code>: multiplies <code>a*b</code></li>
+<li><code>. (n -- )</code>: pops the top element of stack and prints
+it</li>
+<li><code>clear ( x1 x2 ... -- )</code>: removes all elements of the
+stack</li>
+<li><code>reset ( -- )</code>: reset <code>froth</code> to defaults
+(wipe all user definitions, reinitialize all built-in definitions, reset
+all stacks)</li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

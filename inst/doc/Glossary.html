@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>glossary</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">glossary</h1>
+
+
+
+<div id="glossary-of-words" class="section level1">
+<h1>Glossary of Words</h1>
+<p>You can list all the installed words in <code>froth</code> with the
+<code>WORDS</code> word, or use <code>froth.dictionary()</code> from R.
+The following is all the words referenced in the previous chapters.</p>
+<ul>
+<li><code>&lt;NUMBER&gt; ( -- n )</code> : pushes a number onto the
+stack</li>
+<li><code>emit ( n -- )</code> : prints the top number of the stack,
+interpreting as ASCII</li>
+<li><code>cr ( -- )</code>: prints a new line</li>
+<li><code>.&quot; xxx&quot; ( -- )</code>: prints <code>xxx</code> on the
+terminal. Note that <code>&quot;</code> terminates the string.</li>
+<li><code>: xxx yyy ; ( -- )</code> : defines a word <code>xxx</code>
+comprised of words <code>yyy</code></li>
+<li><code>+ (a b -- n)</code>: adds <code>a+b</code></li>
+<li><code>* (a b -- n)</code>: multiplies <code>a*b</code></li>
+<li><code>. (n -- )</code>: pops the top element of stack and prints
+it</li>
+<li><code>clear ( x1 x2 ... -- )</code>: removes all elements of the
+stack</li>
+<li><code>reset ( -- )</code>: reset <code>froth</code> to defaults
+(wipe all user definitions, reinitialize all built-in definitions, reset
+all stacks)</li>
+<li><code>/ ( a b -- n )</code>: division
+(<code>5 2 / =&gt; 2.5</code>)</li>
+<li><code>%/% ( a b -- n)</code>: integer division
+(<code>5 2 %/% =&gt; 2</code>)</li>
+<li><code>mod ( a b -- rem )</code>: remainder when dividing
+<code>a / b</code></li>
+<li><code>/mod ( a b -- rem quot )</code>: integer divides
+<code>a %/% b</code>, pushes the remainder and then the quotient</li>
+<li><code>^ ( a b -- n )</code>: raises <code>a^b</code></li>
+<li><code>negate ( a -- n )</code>: negates <code>a</code></li>
+<li><code>abs ( a -- n )</code>: takes the absolute value of
+<code>a</code></li>
+<li><code>min ( a b -- min )</code>: pushes <code>min(a,b)</code></li>
+<li><code>max ( a b -- max )</code>: pushes <code>max(a,b)</code></li>
+<li><code>sqrt ( a -- root )</code>: pushes <code>sqrt(a)</code></li>
+<li><code>SWAP ( a b -- b a )</code>: swap top two stack elements</li>
+<li><code>DUP ( n -- n n )</code>: duplicate the top stack element</li>
+<li><code>OVER ( a b -- a b a )</code>: duplicate the second element to
+the top of the stack</li>
+<li><code>ROT ( a b c -- b c a )</code>: rotate the third item to the
+top</li>
+<li><code>DROP ( n -- )</code>: discard the top element of the
+stack</li>
+<li><code>.S ( -- )</code>: print out the contents of the stack</li>
+<li><code>2SWAP ( a b c d -- c d a b )</code>: swap the top two
+pairs</li>
+<li><code>2DUP ( a b -- a b a b )</code>: duplicate the top pair</li>
+<li><code>2OVER ( p1 p2 -- p1 p2 p1 )</code>: duplicate the second pair
+(<code>p1</code>) to the top</li>
+<li><code>2DROP ( a b -- )</code>: discard the top pair</li>
+<li><code>&gt;R ( n -- )</code>: moves the value on the parameter stack
+to the return stack</li>
+<li><code>R&gt; ( -- n )</code>: moves the value on the return stack to
+the parameter stack</li>
+<li><code>R@ ( -- n )</code>: copies the value on the return stack to
+the parameter stack</li>
+<li><code>1+ ( n1 -- n2 )</code>: adds 1</li>
+<li><code>1- ( n1 -- n2 )</code>: subtracts 1</li>
+<li><code>2+ ( n1 -- n2 )</code>: adds 2</li>
+<li><code>2- ( n1 -- n2 )</code>: subtracts 2</li>
+<li><code>2* ( n1 -- n2 )</code>: multiplies by 2</li>
+<li><code>2/ ( n1 -- n2 )</code>: divides by 2</li>
+<li><code>*/ ( a b c -- n )</code>: pushes <code>(a*b) / c</code></li>
+<li><code>*/mod ( a b c -- rem quot )</code>: pushes the remainder and
+quotient of <code>(a*b) %/% c</code></li>
+<li><code>if</code>: if top of stack is <code>TRUE</code>, executes.
+Else jumps to the next <code>else</code> or <code>then</code>
+block.</li>
+<li><code>else</code>: executes commands until <code>then</code> only if
+the preceding <code>if</code> did not execute.</li>
+<li><code>then</code>: terminates an <code>if</code> or
+<code>if...else</code> block.</li>
+<li><code>\</code>: signals to the interpreter that you’re making a
+newline without running commands</li>
+<li><code>=</code>: are the top two elements equal?</li>
+<li><code>&lt;</code>: is the top element greater than the first?</li>
+<li><code>&gt;</code>: is the top element less than the first?</li>
+<li><code>&lt;&gt;</code>: are the top two elements not equal?</li>
+<li><code>0=</code>: is the top element zero?</li>
+<li><code>0&lt;</code>: is the top element greater than zero?</li>
+<li><code>0&gt;</code>: is the top element less than zero?</li>
+<li><code>&lt;=</code>: is top element greater than or equal to the
+second?</li>
+<li><code>&gt;=</code>: is top element less than or equal to the
+second?</li>
+<li><code>AND</code>: push <code>TRUE</code> if the top two elements are
+both <code>TRUE</code></li>
+<li><code>OR</code>: push <code>TRUE</code> if at least one of the top
+two elements are <code>TRUE</code></li>
+<li><code>XOR</code>: push <code>TRUE</code> if exactly one of the top
+two elements is <code>TRUE</code></li>
+<li><code>NOT</code>: push <code>TRUE</code> if the top element is
+<code>FALSE</code> and vice-versa</li>
+<li><code>?DUP</code>: duplicate top value if it is nonzero</li>
+<li><code>ABORT&quot;</code>: abort if top value true, print error message
+(terminated by <code>&quot;</code>)</li>
+<li><code>DO ( end start -- )</code>: starts a definite loop from
+<code>start</code> to <code>end</code></li>
+<li><code>LOOP ( -- )</code>: increments the loop counter by 1</li>
+<li><code>+LOOP ( n -- )</code>: increments the loop counter by n</li>
+<li><code>I ( -- n )</code>: copies the current loop counter to the
+stack</li>
+<li><code>J ( -- n )</code>: copies the enclosing loop’s counter to the
+stack</li>
+<li><code>K ( -- n )</code>: copies the enclosing loop’s enclosing
+loop’s counter to the stack</li>
+<li><code>BEGIN ( -- )</code>: starts an indefinite loop</li>
+<li><code>AGAIN ( -- )</code>: returns to <code>BEGIN</code></li>
+<li><code>WHILE ( flag -- )</code>: if <code>flag</code>, continue; else
+jump to after <code>REPEAT</code></li>
+<li><code>REPEAT ( -- )</code>: returns to <code>BEGIN</code> following
+<code>WHILE</code></li>
+<li><code>LEAVE ( -- )</code>: leave the current loop immediately</li>
+<li><code>VARIABLE xxx</code>: creates a variable named
+<code>xxx</code></li>
+<li><code>! ( n addr -- )</code>: stores the value <code>n</code> at
+address <code>addr</code></li>
+<li><code>@ ( addr -- n )</code>: copies the value at <code>addr</code>
+to the stack</li>
+<li><code>? ( addr -- )</code>: prints the value of
+<code>addr</code></li>
+<li><code>+! ( n addr -- )</code>: adds the value <code>n</code> to the
+value at <code>addr</code></li>
+<li><code>CONSTANT xxx (n -- )</code>: creates a constant called
+<code>xxx</code> that stores <code>n</code>; <code>xxx</code> returns
+<code>n</code> when called</li>
+<li><code>ALLOT ( addr ncells -- )</code>: allocates <code>ncells</code>
+cells at <code>addr</code></li>
+<li><code>CREATE xxx y1 , y2 , ... yn ,</code>: creates an array
+<code>xxx</code> with values <code>y1, y2, ... yn</code></li>
+<li><code>CELLS ( n -- )</code>: creates a memory address offset for
+arrays</li>
+<li><code>FILL ( addr ncells val -- )</code>: fills <code>ncells</code>
+cells of memory beginning at <code>addr</code> with
+<code>val</code></li>
+<li><code>ERASE ( addr ncells -- )</code>: fills <code>ncells</code>
+cells of memory beginning at <code>addr</code> with 0</li>
+<li><code>REALLOT ( addr ncells -- )</code>: reallots array at
+<code>addr</code> to have size <code>ncells</code>.</li>
+<li><code>EXTEND ( addr ncells -- )</code>: extends the array at
+<code>addr</code> by <code>ncells</code> cells</li>
+<li><code>LENGTH ( addr -- len )</code>: pushes the length of the array
+at <code>addr</code> onto the stack</li>
+<li><code>LENGTH? ( addr -- )</code>: prints the length of the array at
+<code>addr</code></li>
+</ul>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
