@@ -13,21 +13,22 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Introduction
 
-Forth is a pretty darn cool language. Despite being older than C, Forth is a high level, typeless, stack-oriented programming language that doubles as an extremely lighweight operating system. Think BASIC, but...cooler.
+Forth is a pretty darn cool language. Despite being older than C, Forth is a high level, typeless, stack-oriented programming language that doubles as an extremely lightweight operating system. Think BASIC, but...cooler.
 
 The beauty of Forth is its simplicity. The system is comprised of a single data stack and a dictionary, essentially a linked list containing definitions called "words". Each word links to executable code. When a user enters text, the interpreter traverses the dictionary for each entered word and executes the corresponding code. Forth's stack-oriented design means usage of variables is limited. 
 
-`froth` brings a Forth-like system to R. You can drop into a command-line editor, or call Forth operations from R. Since `froth` runs on top of R, it supports all of R's data structures. `froth` is not as fast as modern implementations of Forth, but this package is more intended as a fun way to play with Forth-style syntax than as a replacement for existing Forths. However, stack-oriented algorthms do have their advantages, and you may find that your R code could benefit from `froth`!
+`froth` brings a Forth-like system to R. You can drop into a command-line editor, or call Forth operations from R. Since `froth` runs on top of R, it supports all of R's data structures. `froth` is not as fast as modern implementations of Forth, but this package is more intended as a fun way to play with Forth-style syntax than as a replacement for existing Forths. However, stack-oriented algorithms do have their advantages, and you may find that your R code could benefit from `froth`!
 
 The included vignettes detail a crash course on `froth`-style Forth, using many examples based on the excellent guide on forth.com. If you find bugs or have any suggestions for additional features, feel free to let me know on GitHub!
 
 ## Differences from Forth
 
-This section is intended for people that experienced in Forth, so if you're just here to learn how to use `froth`, feel free to skip ahead.
+This section is intended for people that experienced in Forth, so if you're just here to learn how to use `froth`, feel free to skip ahead to [the tutorial](https://www.ahl27.com/froth/articles/FundamentalFroth).
 
 I am not an expert on Forth, especially given that there are people that have been programming in Forth longer than I have been alive. There may be some mistakes I've made in this implementation that are unintentional--if you find a difference from Forth that I haven't mentioned, feel free to leave me a comment on GitHub.
 
 However, there are a few known differences that I implemented intentionally:
+
 - Sizes are abstracted. All numbers use R's internals, so integers implicitly convert to reals during division and won't over-/underflow. Arrays use R's `list` structure, so each cell can hold arbitrary amounts of stuff. This also means byte arrays are not supported.
 - Everything is interpreted. Loops can be executed outside of a definition.
 - Virtual memory. Users don't get access to system-level memory, mostly because R doesn't allow that either.

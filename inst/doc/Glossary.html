@@ -12,7 +12,7 @@
 
 
 
-<title>glossary</title>
+<title>Glossary</title>
 
 <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
@@ -235,12 +235,10 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<h1 class="title toc-ignore">glossary</h1>
+<h1 class="title toc-ignore">Glossary</h1>
 
 
 
-<div id="glossary-of-words" class="section level1">
-<h1>Glossary of Words</h1>
 <p>You can list all the installed words in <code>froth</code> with the
 <code>WORDS</code> word, or use <code>froth.dictionary()</code> from R.
 The following is all the words referenced in the previous chapters.</p>
@@ -254,6 +252,9 @@ interpreting as ASCII</li>
 terminal. Note that <code>&quot;</code> terminates the string.</li>
 <li><code>: xxx yyy ; ( -- )</code> : defines a word <code>xxx</code>
 comprised of words <code>yyy</code></li>
+<li><code>FORGET xxx ( -- )</code>: removes the current word
+<code>xxx</code>. If <code>xxx</code> had a previous definition it
+reverts to that previous value, and otherwise the word is removed.</li>
 <li><code>+ (a b -- n)</code>: adds <code>a+b</code></li>
 <li><code>* (a b -- n)</code>: multiplies <code>a*b</code></li>
 <li><code>. (n -- )</code>: pops the top element of stack and prints
@@ -388,6 +389,40 @@ cells of memory beginning at <code>addr</code> with 0</li>
 at <code>addr</code> onto the stack</li>
 <li><code>LENGTH? ( addr -- )</code>: prints the length of the array at
 <code>addr</code></li>
+<li><code>&#39; xxx ( -- addr )</code>: attempts to find <code>xxx</code> in
+the dictionary, and pushes an execution token for <code>xxx</code> to
+the stack if found</li>
+<li><code>EXECUTE ( xt -- )</code>: executes an execution token on top
+of the stack</li>
+<li><code>[&#39;] xxx ( -- addr )</code>: currently equivalent to
+<code>&#39;</code> for <code>froth</code></li>
+</ul>
+<div class="center">
+<ul class="pagination pagination-lg">
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/RInterface.html">«</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/FundamentalFroth.html">1</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/ArithmeticAndStacks.html">2</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Conditionals.html">3</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Loops.html">4</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Variables.html">5</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/RInterface.html">6</a>
+</li>
+<li class="page-item active">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Glossary.html">7</a>
+</li>
 </ul>
 </div>
 

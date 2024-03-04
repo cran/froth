@@ -389,13 +389,20 @@ contents of <code>myarray</code> now look like before reading the next
 section.</p>
 <p>We start by initializing an array <code>myarray</code> of size 5.
 Then, we put <code>0</code> on the stack and <code>begin</code> a loop.
-At each iteration of the loop we: 1. Dup the top of the stack and check
-if less than 5; if not, go to (8) 2. Dup the top of the stack twice. 3.
-Load the address of <code>myarray</code>, swap it with the top duplicate
-4. Create a cell offset equal to the top duplicate, add to the address
-of <code>myarray</code> 5. Store the second duplicate (from 2) at the
-offset location 6. Add 1 to the value on the stack 7. loop 8. finish
-loop</p>
+At each iteration of the loop we:</p>
+<ol style="list-style-type: decimal">
+<li>Dup the top of the stack and check if less than 5; if not, go to
+(8)</li>
+<li>Dup the top of the stack twice.</li>
+<li>Load the address of <code>myarray</code>, swap it with the top
+duplicate</li>
+<li>Create a cell offset equal to the top duplicate, add to the address
+of <code>myarray</code></li>
+<li>Store the second duplicate (from 2) at the offset location</li>
+<li>Add 1 to the value on the stack</li>
+<li>loop</li>
+<li>finish loop</li>
+</ol>
 <p>So what happens? When the stack is 0, we store 0 at the 0th position
 of <code>myarray</code>, then 1 at the 1st position, 2 at the second,
 etc. Let’s print out the entire array:</p>
@@ -411,7 +418,7 @@ fr&gt; 5 0 do myarray i cells + ? loop
 <p>Did you notice how we used <code>,</code>? Unlike English,
 <code>,</code> is a <code>froth</code> word, meaning that it needs to be
 space separated and it acts upon the stack. This means that we
-<strong>must</strong> include a command after the last element to ensure
+<strong>must</strong> include a comma after the last element to ensure
 it’s added to the array.</p>
 </div>
 <div id="modifying-arrays" class="section level2">
@@ -475,6 +482,109 @@ ok.
 fr&gt; myarray LENGTH?
 20 ok.</code></pre>
 </div>
+<div id="execution-tokens" class="section level2">
+<h2>Execution Tokens</h2>
+<p>Variables storing values is nice, but sometimes it’s useful to be
+able to store a function inside a variable. This is a common practice in
+R (e.g., any of the <code>*apply</code> functions), and also exists in C
+in the form of function pointers.</p>
+<p>Forth also incorporates a way to do this, using a unique word to put
+an “execution token” on the stack. An execution token is essentially
+just the location of a particular type of code. When you want to execute
+that token, Forth runs the code at the location referenced by the
+execution token.</p>
+<p>This capability is implemented in <code>froth</code>, but it does
+have a few differences to classic Forths due to how the memory is
+abstracted. Let’s start with a simple example:</p>
+<pre><code>fr&gt; : GREET .&quot; Hello!&quot; ;
+ok.
+fr&gt; GREET
+Hello! ok.
+fr&gt; &#39; GREET .
+executable token &lt; greet &gt; ok.
+fr&gt; &#39; GREET EXECUTE
+Hello! ok.</code></pre>
+<p>We have two new words here: <code>&#39;</code> and <code>EXECUTE</code>.
+The first of these, <code>&#39;</code> (pronounced “tick”), creates an
+execution token for the word that follows it, then pushes it to the
+stack. If we print this value out, we get
+<code>executable token &lt; greet &gt;</code>. Forth languages would
+traditionally return memory location, but <code>froth</code> just shows
+the word that the execution token corresponds to. The second word,
+<code>EXECUTE</code>, does just that: it executes the execution token at
+the top of the stack.</p>
+<p>In a way, <code>&#39; GREET EXECUTE</code> is just a really roundabout
+way of accomplishing the same thing as just calling <code>GREET</code>
+directly. Naturally, one might wonder what the purpose of this is. We
+can use <code>&#39;</code> to store functions in variables so we can
+<em>indirectly</em> execute them later on. Let’s see how to do this with
+an example:</p>
+<pre><code>fr&gt; : HELLO .&quot; Hello&quot; ;
+ok.
+fr&gt; : GOODBYE .&quot; Goodbye&quot; ;
+ok.
+fr&gt; VARIABLE &#39;aloha &#39; HELLO &#39;aloha !
+ok.
+fr&gt; : ALOHA &#39;aloha @ EXECUTE ;
+ok.</code></pre>
+<p>I’ll show what happened in a minute, but I’d encourage readers to
+first think about this code. What’s going on here? What would running
+<code>&#39;aloha</code> do? Read through the code, then continue on to the
+explanation below.</p>
+<p>The first two lines should be simple by now. We’ve defined two
+functions, <code>HELLO</code> and <code>GOODBYE</code>, that simply
+print out <code>Hello</code> and <code>Goodbye</code> (respectively).
+Then, we initialize a variable called <code>&#39;aloha</code>, and store an
+execution token for <code>HELLO</code> inside that variable. Finally, we
+define a function <code>ALOHA</code> that executes the execution token
+stored in <code>&#39;aloha</code>.</p>
+<p>This implies two things. First, if we run <code>ALOHA</code>, we
+should expect it to call <code>HELLO</code>:</p>
+<pre><code>fr&gt; ALOHA
+Hello ok.</code></pre>
+<p>And indeed it does. Secondly, if we store a different function
+pointer in <code>&#39;aloha</code> and then call <code>ALOHA</code>, we
+should expect to see a different result:</p>
+<pre><code>fr&gt; &#39; GOODBYE &#39;aloha !
+ok.
+fr&gt; ALOHA
+Goodbye ok.</code></pre>
+<p>Here lies the power of execution tokens. Using a single variable, we
+can call multiple functions!</p>
+<p>I’ll also note that we called our variable <code>&#39;aloha</code>
+(“tick-aloha”). This convention of preceding the variable name with a
+<code>&#39;</code> is used in Forth to denote variables that store execution
+pointers.</p>
+<div id="for-forth-programmers" class="section level3">
+<h3>For Forth programmers</h3>
+<p>There is a one major difference here between Forth and
+<code>froth</code>. <code>froth</code> is completely interpreted, and
+thus does not distinguish between variable definition lines and
+non-definition lines. What this means for Forth programmers is that the
+<code>froth</code> word <code>&#39;</code> is equivalent to the Forth word
+<code>[&#39;]</code> when used in a definition context. <code>froth</code>
+cannot look at the input stream, and will instead always look at the
+next word on the execution stack. I’m thinking of changing this to be
+more consistent with Forth in the future, but I haven’t gotten to it
+yet.</p>
+<p>This implications of this are demonstrated by the following:</p>
+<pre><code>fr&gt; : SAY &#39; &#39;aloha ! ;
+ok.
+fr&gt; SAY HELLO
+Error: can&#39;t find &#39;aloha
+fr&gt; : COMING &#39; HELLO &#39;aloha ! ;
+ok.
+fr&gt; : GOING &#39; GOODBYE &#39;aloha ! ;
+ok.
+fr&gt; COMING ALOHA GOING ALOHA
+Hello Goodbye ok.</code></pre>
+<p>In traditional Forth, the <code>GOING</code> definition would be
+<code>: GOING [&#39;] GOODBYE &#39;aloha ! ;</code>, and <code>SAY HELLO</code>
+would not produce an error. However, this isn’t the case here.
+<code>[&#39;]</code> is also provided as an alias for <code>&#39;</code>. Again,
+I plan to change this eventually.</p>
+</div>
+</div>
 <div id="words-in-this-chapter" class="section level2">
 <h2>Words in this chapter</h2>
 <ul>
@@ -510,7 +620,45 @@ cells of memory beginning at <code>addr</code> with 0</li>
 at <code>addr</code> onto the stack</li>
 <li><code>LENGTH? ( addr -- )</code>: prints the length of the array at
 <code>addr</code></li>
+<li><code>&#39; xxx ( -- addr )</code>: attempts to find <code>xxx</code> in
+the dictionary, and pushes an execution token for <code>xxx</code> to
+the stack if found</li>
+<li><code>EXECUTE ( xt -- )</code>: executes an execution token on top
+of the stack</li>
+<li><code>[&#39;] xxx ( -- addr )</code>: currently equivalent to
+<code>&#39;</code> for <code>froth</code></li>
 </ul>
+<div class="center">
+<ul class="pagination pagination-lg">
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Loops.html">«</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/FundamentalFroth.html">1</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/ArithmeticAndStacks.html">2</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Conditionals.html">3</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Loops.html">4</a>
+</li>
+<li class="page-item active">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Variables.html">5</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/RInterface.html">6</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/Glossary.html">7</a>
+</li>
+<li class="page-item">
+<a class="page-link" href="https://www.ahl27.com/froth/articles/RInterface.html">»</a>
+</li>
+</ul>
+</div>
 </div>
 
 
